@@ -55,7 +55,7 @@ html, body {
 /* ---------------- Dashboard layout ---------------- */
 .dashboard {
   display: grid;
-  grid-template-columns: 440px 1fr;
+  grid-template-columns: 480px 1fr;
   gap: 32px;
   align-items: start;
 }
@@ -174,12 +174,12 @@ html, body {
   pointer-events: none;
 }
 
-/* Dashed horizontal marker line at the tier's true value position.
-   Spans the full tier-markers column so it reaches the meter edge. */
+/* Dashed horizontal tick mark at the tier's true value position.
+   Short — sits just outside the meter so it doesn't cross the labels. */
 .tier-line-mark {
   position: absolute;
-  left: 0;
   right: 0;
+  width: 28px;
   height: 0;
   border-top: 2px dashed;
   pointer-events: none;
@@ -190,15 +190,14 @@ html, body {
 .tier-line-mark.sustainable { border-color: var(--tier-sustainable); }
 .tier-line-mark.mission { border-color: var(--tier-mission); }
 
-/* Text label block — positioned with collision avoidance. Spans the full
-   tier-markers column so long labels have room to breathe. */
+/* Text label block — positioned with collision avoidance. Lives in the
+   space LEFT of the tick marks so dashed lines never cut through text. */
 .tier {
   position: absolute;
   left: 0;
-  right: 0;
+  right: 36px;
   text-align: right;
   transform: translateY(50%);
-  padding-right: 10px;
   line-height: 1.25;
 }
 
