@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CWC Program Sustainability Fund — 2026 Tracker</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<main class="page">
+  <header class="page-header">
+    <h1>CWC Program Sustainability Fund</h1>
+    <p class="subtitle">2026 Funding Tracker</p>
+  </header>
+
+  <section class="dashboard">
+    <!-- Meter column -->
+    <div class="meter-column">
+      <div class="meter-wrap">
+        <!-- Tier markers drawn to the LEFT of the meter -->
+        <div class="tier-markers" id="tier-markers"></div>
+
+        <!-- The thermometer -->
+        <div class="meter" id="meter">
+          <div class="meter-fill">
+            <div class="fill-segment fill-program" id="fill-program"></div>
+            <div class="fill-segment fill-foundation" id="fill-foundation"></div>
+          </div>
+        </div>
+        <div class="meter-scale" id="meter-scale"></div>
+        <div class="meter-bulb"></div>
+      </div>
+
+      <div class="meter-summary">
+        <div class="summary-row">
+          <span class="dot dot-program"></span>
+          <span class="summary-label">Program revenue</span>
+          <span class="summary-value" id="summary-program">$0</span>
+        </div>
+        <div class="summary-row">
+          <span class="dot dot-foundation"></span>
+          <span class="summary-label">Foundation support</span>
+          <span class="summary-value" id="summary-foundation">$0</span>
+        </div>
+        <div class="summary-row total">
+          <span class="summary-label">Total raised</span>
+          <span class="summary-value" id="summary-total">$0</span>
+        </div>
+        <div class="summary-row gap">
+          <span class="summary-label" id="gap-label">Gap to goal</span>
+          <span class="summary-value" id="summary-gap">$75,000</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controls / inputs column -->
+    <div class="controls-column">
+      <section class="panel">
+        <h2>Goals</h2>
+        <div class="goal-grid">
+          <label class="goal-field">
+            <span>Program revenue goal</span>
+            <div class="money-input">
+              <span class="money-prefix">$</span>
+              <input type="number" id="goal-program" min="0" step="500" />
+            </div>
+          </label>
+          <label class="goal-field">
+            <span>Stable (full costs)</span>
+            <div class="money-input">
+              <span class="money-prefix">$</span>
+              <input type="number" id="goal-stable" min="0" step="1000" />
+            </div>
+          </label>
+          <label class="goal-field">
+            <span>Sustainable (+ buffer)</span>
+            <div class="money-input">
+              <span class="money-prefix">$</span>
+              <input type="number" id="goal-sustainable" min="0" step="1000" />
+            </div>
+          </label>
+          <label class="goal-field">
+            <span>Mission (fee reductions)</span>
+            <div class="money-input">
+              <span class="money-prefix">$</span>
+              <input type="number" id="goal-mission" min="0" step="1000" />
+            </div>
+          </label>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-heading">
+          <h2><span class="dot dot-program"></span>Program Revenue</h2>
+          <p class="panel-help">Network fees, renewals, IPP, and other confirmed program revenue.</p>
+        </div>
+        <div class="items" id="items-program"></div>
+        <button class="btn-add" data-add="program">+ Add program revenue</button>
+        <div class="panel-total">
+          Subtotal: <strong id="subtotal-program">$0</strong>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-heading">
+          <h2><span class="dot dot-foundation"></span>Foundation Support</h2>
+          <p class="panel-help">Grants, sponsorships, and philanthropic contributions.</p>
+        </div>
+        <div class="items" id="items-foundation"></div>
+        <button class="btn-add" data-add="foundation">+ Add foundation grant</button>
+        <div class="panel-total">
+          Subtotal: <strong id="subtotal-foundation">$0</strong>
+        </div>
+      </section>
+
+      <section class="panel data-panel">
+        <h2>Data</h2>
+        <p class="panel-help">Entries are saved in your browser. Use export/import to back up or share.</p>
+        <div class="data-actions">
+          <button class="btn-secondary" id="btn-export">Export JSON</button>
+          <label class="btn-secondary file-label">
+            Import JSON
+            <input type="file" id="file-import" accept="application/json" hidden />
+          </label>
+          <button class="btn-danger" id="btn-reset">Reset all</button>
+        </div>
+      </section>
+    </div>
+  </section>
+</main>
+
+<template id="tpl-item">
+  <div class="item-row">
+    <input type="text" class="item-name" placeholder="Source / description" />
+    <div class="money-input">
+      <span class="money-prefix">$</span>
+      <input type="number" class="item-amount" min="0" step="100" placeholder="0" />
+    </div>
+    <button class="btn-remove" title="Remove" aria-label="Remove">&times;</button>
+  </div>
+</template>
+
+<script src="app.js"></script>
+</body>
+</html>
