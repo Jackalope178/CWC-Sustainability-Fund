@@ -55,7 +55,7 @@ html, body {
 /* ---------------- Dashboard layout ---------------- */
 .dashboard {
   display: grid;
-  grid-template-columns: 360px 1fr;
+  grid-template-columns: 440px 1fr;
   gap: 32px;
   align-items: start;
 }
@@ -163,52 +163,62 @@ html, body {
   white-space: nowrap;
 }
 
-/* Tier markers column to the left of the meter */
+/* Tier markers column to the left of the meter — spans from the left
+   edge of .meter-wrap up to just outside the meter tube. */
 .tier-markers {
   position: absolute;
   top: 16px;
-  right: calc(50% + 44px);
-  width: 220px;
+  left: 8px;
+  right: calc(50% + 42px);
   height: 520px;
   pointer-events: none;
 }
 
-.tier {
+/* Dashed horizontal marker line at the tier's true value position.
+   Spans the full tier-markers column so it reaches the meter edge. */
+.tier-line-mark {
   position: absolute;
+  left: 0;
   right: 0;
-  width: 100%;
-  text-align: right;
-  transform: translateY(-50%);
-}
-
-.tier-line {
   height: 0;
   border-top: 2px dashed;
-  margin-bottom: 4px;
+  pointer-events: none;
+}
+
+.tier-line-mark.program { border-color: var(--program); }
+.tier-line-mark.stable { border-color: var(--tier-stable); }
+.tier-line-mark.sustainable { border-color: var(--tier-sustainable); }
+.tier-line-mark.mission { border-color: var(--tier-mission); }
+
+/* Text label block — positioned with collision avoidance. Spans the full
+   tier-markers column so long labels have room to breathe. */
+.tier {
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: right;
+  transform: translateY(50%);
+  padding-right: 10px;
+  line-height: 1.25;
 }
 
 .tier-label {
   font-weight: 600;
-  font-size: 13px;
+  font-size: 14px;
+  letter-spacing: -0.005em;
 }
 
 .tier-sub {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--ink-muted);
-  margin-top: 1px;
+  margin-top: 2px;
 }
 
-.tier.program .tier-line { border-color: var(--program); }
 .tier.program .tier-label { color: var(--program-dark); }
-
-.tier.stable .tier-line { border-color: var(--tier-stable); }
 .tier.stable .tier-label { color: var(--tier-stable); }
-
-.tier.sustainable .tier-line { border-color: var(--tier-sustainable); }
 .tier.sustainable .tier-label { color: var(--tier-sustainable); }
-
-.tier.mission .tier-line { border-color: var(--tier-mission); }
 .tier.mission .tier-label { color: var(--tier-mission); }
+
 
 /* ---------------- Summary under meter ---------------- */
 .meter-summary {

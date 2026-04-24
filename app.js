@@ -123,19 +123,54 @@
         label: `${fmt(state.goals.mission)}+ — Mission`,
         sub: 'Fee reductions unlocked',
       },
-    ];
+    ].filter((t) => t.value && t.value <= max);
+
+    const METER_HEIGHT = 520;
+    const MIN_GAP = 58;
+
+    // Compute true position (px from bottom) and start label at that same spot.
+    tiers.forEach((t) => {
+      t.truePx = (t.value / max) * METER_HEIGHT;
+      t.labelPx = t.truePx;
+    });
+
+    // Sort ascending, then push overlapping labels upward.
+    tiers.sort((a, b) => a.labelPx - b.labelPx);
+    for (let i = 1; i < tiers.length; i++) {
+      const prev = tiers[i - 1];
+      const cur = tiers[i];
+      if (cur.labelPx - prev.labelPx < MIN_GAP) {
+        cur.labelPx = prev.labelPx + MIN_GAP;
+      }
+    }
+    // If top label pushed past the meter, cascade downward.
+    for (let i = tiers.length - 1; i > 0; i--) {
+      if (tiers[i].labelPx > METER_HEIGHT - 4) {
+        tiers[i].labelPx = METER_HEIGHT - 4;
+      }
+      if (tiers[i].labelPx - tiers[i - 1].labelPx < MIN_GAP) {
+        tiers[i - 1].labelPx = tiers[i].labelPx - MIN_GAP;
+      }
+    }
 
     el.tierMarkers.innerHTML = '';
-    tiers.forEach((tier) => {
-      if (!tier.value || tier.value > max) return;
-      const pct = (tier.value / max) * 100;
+
+    // Dashed marker lines at each tier's TRUE position.
+    tiers.forEach((t) => {
+      const line = document.createElement('div');
+      line.className = `tier-line-mark ${t.cls}`;
+      line.style.bottom = t.truePx + 'px';
+      el.tierMarkers.appendChild(line);
+    });
+
+    // Text labels at the collision-adjusted positions.
+    tiers.forEach((t) => {
       const node = document.createElement('div');
-      node.className = `tier ${tier.cls}`;
-      node.style.bottom = pct + '%';
+      node.className = `tier ${t.cls}`;
+      node.style.bottom = t.labelPx + 'px';
       node.innerHTML = `
-        <div class="tier-label">${tier.label}</div>
-        <div class="tier-sub">${tier.sub}</div>
-        <div class="tier-line"></div>
+        <div class="tier-label">${t.label}</div>
+        <div class="tier-sub">${t.sub}</div>
       `;
       el.tierMarkers.appendChild(node);
     });
